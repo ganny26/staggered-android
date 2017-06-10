@@ -1,8 +1,6 @@
 package com.bacon.demo.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +12,12 @@ import com.bacon.demo.R;
 import com.bacon.demo.application.ImageModel;
 import com.bacon.demo.utils.DynamicHeightImageView;
 import com.bacon.demo.utils.PlaceHolderDrawableHelper;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by serajam on 6/8/2017.
@@ -52,10 +52,23 @@ public class MyGridAdapter extends RecyclerView.Adapter  {
         vh.imageView.setLayoutParams(rlp);
         vh.positionTextView.setText("pos: " + position);
         vh.imageView.setRatio(item.getRatio());
-        Picasso.with(mContext).load(item.getUrl()).placeholder(PlaceHolderDrawableHelper.getBackgroundDrawable(position)).into(vh.imageView);
+//        Picasso.with(mContext)
+//                .load(item.getUrl())
+//                .placeholder(PlaceHolderDrawableHelper.getBackgroundDrawable(position))
+//                .into(vh.imageView);
+
+        Glide.with(mContext)
+                .load(item.getUrl())
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(PlaceHolderDrawableHelper.getBackgroundDrawable(position))
+                .into(vh.imageView);
 
 
     }
+
+
+
 
     @Override
     public int getItemCount() {

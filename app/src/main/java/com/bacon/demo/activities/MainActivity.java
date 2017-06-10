@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.bacon.demo.R;
 import com.bacon.demo.adapter.MyGridAdapter;
 import com.bacon.demo.application.ImageModel;
+import com.bacon.demo.listener.EndlessRecyclerViewScrollListener;
 import com.bacon.demo.service.LoadFlickerFeed;
 
 import org.json.JSONArray;
@@ -27,12 +28,16 @@ public class MainActivity extends AppCompatActivity {
    // private static String TAG = "MainActivity";
     private static final String POSTER_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
+    private EndlessRecyclerViewScrollListener scrollListener;
+
+
+
     //public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String[] colors = new String[] {"red", "blue", "black", "white", "yellow"};
     private static final String[] locations = new String[] {"seattle", "sf", "LA", "NYC"};
 
     MyGridAdapter adapter;
-    RecyclerView gridView;
+    RecyclerView recyclerView;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -55,12 +60,10 @@ public class MainActivity extends AppCompatActivity {
                         JSONArray jsonArray = (JSONArray) jsonObject.get("results");
                         for (int i=0;i<jsonArray.length();i++) {
                             ImageModel imageModel = new ImageModel();
-                            int width = 150;
-                            int height = (int) (50 + Math.random() * 450);
+                            int width = 300;
+                            int height = 500;
                             JSONObject resultObject = jsonArray.getJSONObject(i);
                             String posterPathUrl = POSTER_BASE_URL +  resultObject.get("poster_path");
-                            //
-                            // String posterPathUrl = POSTER_BASE_URL +  resultObject.get("poster_path");
                             imageModel.setUrl(posterPathUrl);
                             imageModel.setWidth(width);
                             imageModel.setHeight(height);
@@ -84,11 +87,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         adapter = new MyGridAdapter(this);
-        gridView = (RecyclerView) findViewById(R.id.grid_view);
-        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        gridView.setLayoutManager(sglm);
-        gridView.setAdapter(adapter);
+        recyclerView = (RecyclerView) findViewById(R.id.grid_view);
+
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager){
+
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                String color = colors[((int) (colors.length * Math.random()))];
+                String location = locations[((int) (locations.length * Math.random()))];
+                String term = "settings";
+                String[] tags = new String[]{color,location,term};
+                getImagesForTag(tags);
+            }
+        };
+
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
