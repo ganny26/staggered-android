@@ -2,22 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_settings"
-        android:title="settings"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item android:title="cars"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item android:title="flowers"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item android:title="trees"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item android:title="houses"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item android:title="boats"
+        android:title="Load Images"
         android:orderInCategory="100"
         app:showAsAction="never" />
 </menu>
