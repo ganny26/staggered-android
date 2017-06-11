@@ -21,7 +21,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -147,7 +149,11 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new MyGridAdapter(this);
         recyclerView = (RecyclerView) findViewById(R.id.grid_view);
-
+        recyclerView.setItemAnimator(new SlideInUpAnimator());
+        recyclerView.getItemAnimator().setAddDuration(1000);
+        recyclerView.getItemAnimator().setRemoveDuration(1000);
+        recyclerView.getItemAnimator().setMoveDuration(1000);
+        recyclerView.getItemAnimator().setChangeDuration(1000);
 
         final StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
@@ -173,8 +179,9 @@ public class MainActivity extends AppCompatActivity {
         };
 
         recyclerView.addOnScrollListener(scrollListener);
-
-        recyclerView.setAdapter(adapter);
+        AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(adapter);
+        alphaInAnimationAdapter.setDuration(3000);
+        recyclerView.setAdapter(new AlphaInAnimationAdapter(adapter));
     }
 
     @Override
