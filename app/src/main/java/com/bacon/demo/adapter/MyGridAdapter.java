@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -62,6 +63,7 @@ public class MyGridAdapter extends RecyclerView.Adapter  {
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(PlaceHolderDrawableHelper.getBackgroundDrawable(position))
+                .crossFade()
                 .into(vh.imageView);
 
 
@@ -80,4 +82,18 @@ public class MyGridAdapter extends RecyclerView.Adapter  {
         imageModel.setRatio(ratio);
         this.imageModels.add(imageModel);
     }
+
+
+//    private static class FooterViewHolder extends RecyclerView.ViewHolder{
+//        private ProgressBar progressBar;
+//
+//        public ProgressBar getProgressBar() {
+//            return progressBar;
+//        }
+//
+//        public FooterViewHolder(View itemView) {
+//            super(itemView);
+//            this.progressBar = (ProgressBar) itemView.findViewById(R.id.main_progress);
+//        }
+//    }
 }
