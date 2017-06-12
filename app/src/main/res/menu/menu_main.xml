@@ -5,4 +5,11 @@
         android:title="Load Images"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <!--<item android:id="@+id/menuSearch"-->
+        <!--android:title="Search"-->
+        <!--app:showAsAction="always"-->
+        <!--app:actionViewClass="android.widget.SearchView"-->
+        <!--android:icon="@drawable/ic_search_black_24dp"-->
+        <!--&gt;</item>-->
+
 </menu>
