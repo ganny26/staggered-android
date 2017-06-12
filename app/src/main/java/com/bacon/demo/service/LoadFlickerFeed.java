@@ -15,7 +15,7 @@ import okhttp3.Response;
  * Created by serajam on 6/8/2017.
  */
 
-public class LoadFlickerFeed extends AsyncTask<String,Void,String> {
+public class LoadFlickerFeed extends AsyncTask<Integer,Void,String> {
 
 
 
@@ -24,12 +24,15 @@ public class LoadFlickerFeed extends AsyncTask<String,Void,String> {
 
 
     @Override
-    protected String doInBackground(String... params) {
+    protected String doInBackground(Integer... params) {
+
+        int pageNumber = params[0];
+        String API_URL_PAGE = API_URL + "&page=" + pageNumber;
         String dataResult = null;
         try{
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
-                    .url(API_URL).build();
+                    .url(API_URL_PAGE).build();
             Response response = client.newCall(request).execute();
             dataResult =  response.body().string();
         }catch(IOException e){
