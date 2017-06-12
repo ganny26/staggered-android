@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private static final String[] colors = new String[] {"red", "blue", "black", "white", "yellow"};
-    private static final String[] locations = new String[] {"seattle", "sf", "LA", "NYC"};
+
 
     MyGridAdapter adapter;
     RecyclerView recyclerView;
@@ -45,59 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String color = colors[((int) (colors.length * Math.random()))];
-        String location = locations[((int) (locations.length * Math.random()))];
-        String term = (String) item.getTitle();
-        String[] tags = new String[]{color,location,term};
-        getImagesForTag(tags);
         return true;
     }
 
-    private void getImagesForTag(String[] tags)  {
-        LoadFlickerFeed task = new LoadFlickerFeed(){
-            @Override
-            protected void onPreExecute() {
-                progressBar = (ProgressBar) findViewById(R.id.main_progress);
-                progressBar.setVisibility(View.VISIBLE);
 
-            }
-
-            @Override
-            public void onPostExecute(String result) {
-                progressBar = (ProgressBar) findViewById(R.id.main_progress);
-                progressBar.setVisibility(View.GONE);
-                synchronized(adapter) {
-                    try{
-                        int startPosition = adapter.getItemCount();
-                        JSONObject jsonObject = new JSONObject(result);
-                        JSONArray jsonArray = (JSONArray) jsonObject.get("results");
-                        for (int i=0;i<jsonArray.length();i++) {
-                            ImageModel imageModel = new ImageModel();
-                            int width = 300;
-                            int height = 500;
-                            JSONObject resultObject = jsonArray.getJSONObject(i);
-                            String posterPathUrl = POSTER_BASE_URL +  resultObject.get("poster_path");
-                            imageModel.setUrl(posterPathUrl);
-                            imageModel.setWidth(width);
-                            imageModel.setHeight(height);
-                            adapter.addDrawable(imageModel);
-                            adapter.notifyItemRangeInserted(startPosition, result.length());
-                        }
-                    }
-                    catch(JSONException e){
-                        e.printStackTrace();
-                    }
-
-
-                }
-            }
-        };
-
-        task.execute(tags);
-
-    }
-
-    public void addImages(){
+    public void addImages(int pageNumber){
         LoadFlickerFeed task = new LoadFlickerFeed(){
             @Override
             protected void onPreExecute() {
@@ -139,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        task.execute();
+        task.execute(pageNumber);
     }
 
     @Override
@@ -159,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
 
-        addImages();
+        addImages(1);
 
         scrollListener = new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager){
             @Override
@@ -169,10 +120,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+
+                final int curSize = adapter.getItemCount();
+                addImages(page);
+
                 view.post(new Runnable() {
                     @Override
                     public void run() {
-                        addImages();
+                        // Notify adapter with appropriate notify methods
+                        adapter.notifyItemRangeInserted(curSize,20);
+                        //addImages(page);
                     }
                 });
             }
