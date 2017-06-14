@@ -1,13 +1,17 @@
 package com.bacon.demo.activities;
 
+import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ProgressBar;
 
 
@@ -16,6 +20,8 @@ import com.bacon.demo.adapter.MyGridAdapter;
 import com.bacon.demo.application.ImageModel;
 import com.bacon.demo.listener.EndlessRecyclerViewScrollListener;
 import com.bacon.demo.service.LoadFlickerFeed;
+import com.bacon.demo.views.ArrayAdapterSearchView;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,9 +48,21 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ProgressBar progressBar;
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return true;
+
+        switch (item.getItemId()) {
+            case R.id.se_activity: {
+                startActivity(new Intent(this,SearchActivity.class));
+                return true;
+            }
+            case R.id.menuSearch:{
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -95,8 +113,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         adapter = new MyGridAdapter(this);
         recyclerView = (RecyclerView) findViewById(R.id.grid_view);
@@ -144,6 +165,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main,menu);
+
+
+//
+//        MenuItem searchItem = menu.findItem(R.id.menuSearch);
+//        final ArrayAdapterSearchView searchView = (ArrayAdapterSearchView) MenuItemCompat.getActionView(searchItem);
+//        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                searchView.setText("helloooooooooo");
+//            }
+            //            @Override
+
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                searchView.setText(adapter.getItem(position).toString());
+//
+//            }
+ //       });
+
         return true;
     }
 
