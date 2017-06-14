@@ -5,11 +5,19 @@
         android:title="Load Images"
         android:orderInCategory="100"
         app:showAsAction="never" />
-    <!--<item android:id="@+id/menuSearch"-->
-        <!--android:title="Search"-->
-        <!--app:showAsAction="always"-->
-        <!--app:actionViewClass="android.widget.SearchView"-->
-        <!--android:icon="@drawable/ic_search_black_24dp"-->
-        <!--&gt;</item>-->
+
+    <item android:id="@+id/se_activity"
+        android:title="Search Images"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/menuSearch"
+        android:title="Search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="com.bacon.demo.views.ArrayAdapterSearchView"
+        android:icon="@drawable/ic_search_black_24dp"
+        ></item>
+
+
 
 </menu>
