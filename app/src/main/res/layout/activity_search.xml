@@ -10,23 +10,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.bacon.demo.activities.SearchActivity">
 
-    <TextView
-        android:id="@+id/textView1"
+    <MultiAutoCompleteTextView
+        android:id="@+id/multiAutoCompleteTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
-        android:text="Title" />
-    <AutoCompleteTextView
-        android:id="@+id/autocompleteEditTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="108dp"
-        android:ems="10"
-        android:text="Type here"
-        android:textColor="#000000" />
+        android:layout_marginTop="61dp"
+        android:ems="14"
+        android:hint="MultiAutoCompleteTextView" >
+
+        <requestFocus />
+    </MultiAutoCompleteTextView>
 
 </RelativeLayout>
