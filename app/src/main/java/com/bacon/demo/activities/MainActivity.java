@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     MyGridAdapter adapter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
+    Toolbar customToolbar;
 
 
     @Override
@@ -118,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        customToolbar = (Toolbar) findViewById(R.id.custom_toolbar);
+        this.setSupportActionBar(customToolbar);
 
         adapter = new MyGridAdapter(this);
         recyclerView = (RecyclerView) findViewById(R.id.grid_view);
