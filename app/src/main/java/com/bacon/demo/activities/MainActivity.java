@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 
 import com.bacon.demo.R;
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     Toolbar customToolbar;
+    private TextView faSearch;
+
+
 
 
     @Override
@@ -123,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
         customToolbar = (Toolbar) findViewById(R.id.custom_toolbar);
         this.setSupportActionBar(customToolbar);
 
+
+
         adapter = new MyGridAdapter(this);
         recyclerView = (RecyclerView) findViewById(R.id.grid_view);
         recyclerView.setItemAnimator(new SlideInUpAnimator());
@@ -168,25 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
-
-
-//
-//        MenuItem searchItem = menu.findItem(R.id.menuSearch);
-//        final ArrayAdapterSearchView searchView = (ArrayAdapterSearchView) MenuItemCompat.getActionView(searchItem);
-//        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                searchView.setText("helloooooooooo");
-//            }
-            //            @Override
-
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                searchView.setText(adapter.getItem(position).toString());
-//
-//            }
- //       });
+        //getMenuInflater().inflate(R.menu.menu_main,menu);
 
         return true;
     }
