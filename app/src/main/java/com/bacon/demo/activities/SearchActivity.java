@@ -2,6 +2,7 @@ package com.bacon.demo.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import com.bacon.demo.R;
 
 public class SearchActivity extends AppCompatActivity {
 
+    private Toolbar mToolbar;
 
     private MultiAutoCompleteTextView  multiAutoCompleteTextView;
 
@@ -21,7 +23,11 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        String[] androidList={"Andoid","Jelly Bean","Froyo",
+        mToolbar = (Toolbar) findViewById(R.id.tb_main);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String[] androidList={"Android","Jelly Bean","Froyo",
                 "Ginger Bread","Eclipse Indigo","Eclipse Juno"};
 
         multiAutoCompleteTextView = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView1);
