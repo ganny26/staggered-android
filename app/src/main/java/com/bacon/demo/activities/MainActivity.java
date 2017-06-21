@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menuSearch:{
                 return true;
             }
+            case R.id.test_activity:{
+                startActivity(new Intent(this,TestActivity.class));
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
