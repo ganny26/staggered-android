@@ -26,7 +26,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.TestActivity"></activity>
+        <activity android:name=".activities.TestActivity" />
+        <activity android:name=".activities.ProductActivity"></activity>
     </application>
 
 </manifest>
