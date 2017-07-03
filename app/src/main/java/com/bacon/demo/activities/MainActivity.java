@@ -1,25 +1,19 @@
 package com.bacon.demo.activities;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 
 import com.bacon.demo.R;
 import com.bacon.demo.adapter.MyGridAdapter;
@@ -28,18 +22,12 @@ import com.bacon.demo.application.CallbackInterface;
 import com.bacon.demo.application.ImageModel;
 import com.bacon.demo.listener.EndlessRecyclerViewScrollListener;
 import com.bacon.demo.service.LoadFlickerFeed;
-import com.bacon.demo.views.ArrayAdapterSearchView;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
-
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 
@@ -89,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
             }
             case R.id.product_activity:{
                 startActivity(new Intent(this,ProductActivity.class));
+            }
+            case R.id.notify:{
+                startActivity(new Intent(this,ResultActivity.class));
             }
             default:
                 return super.onOptionsItemSelected(item);
@@ -153,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
 
         setContentView(R.layout.activity_main);
 
+        getSetUp();
         handler = new Handler();
         linearLayoutManager = new LinearLayoutManager(this);
         customToolbar = (Toolbar) findViewById(R.id.custom_toolbar);
@@ -235,6 +227,13 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
         AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(adapter);
         alphaInAnimationAdapter.setDuration(3000);
         recyclerView.setAdapter(new AlphaInAnimationAdapter(adapter));
+    }
+
+    private void getSetUp() {
+
+        /**
+         * Code for notification builder*/
+
     }
 
     @Override
