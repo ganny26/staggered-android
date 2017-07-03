@@ -16,6 +16,12 @@
         android:orderInCategory="300"
         app:showAsAction="never" />
 
+
+    <item android:id="@+id/product_activity"
+        android:title="Product Activity"
+        android:orderInCategory="400"
+        app:showAsAction="never" />
+
     <item android:id="@+id/menuSearch"
         android:title="Search"
         app:showAsAction="ifRoom|collapseActionView"
