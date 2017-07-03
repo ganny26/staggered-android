@@ -22,12 +22,22 @@
         android:orderInCategory="400"
         app:showAsAction="never" />
 
+    <item android:id="@+id/notify"
+        android:title="Notify"
+        android:orderInCategory="500"
+        app:showAsAction="never"
+
+
+        ></item>
+
     <item android:id="@+id/menuSearch"
         android:title="Search"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="com.bacon.demo.views.ArrayAdapterSearchView"
         android:icon="@drawable/ic_search_black_24dp"
         ></item>
+
+
 
 
 
