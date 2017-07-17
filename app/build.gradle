@@ -39,5 +39,6 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.4.0'
     compile 'com.firebase:firebase-jobdispatcher:0.6.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.daimajia.numberprogressbar:library:1.4@aar'
 }
 apply plugin: 'com.google.gms.google-services'
