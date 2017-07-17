@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_product"
     android:layout_width="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+
     android:layout_height="match_parent"
     tools:context="com.bacon.demo.activities.ProductActivity">
 
+    <com.daimajia.numberprogressbar.NumberProgressBar
+        android:id="@+id/number_progress_bar"
+        android:layout_width="300dp"
+        android:layout_height="10dp"
+        custom:progress_unreached_color="#CCCCCC"
+        custom:progress_reached_color="#3498DB"
 
-    <ListView
-        android:id="@+id/listview_product"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        custom:progress_unreached_bar_height="0.75dp"
+        custom:progress_reached_bar_height="1.5dp"
+
+        custom:progress_text_size="10sp"
+        custom:progress_text_color="#3498DB"
+        custom:progress_text_offset="1dp"
+        custom:progress_text_visibility="visible"
+
+        custom:progress_max="100"
+        custom:progress_current="100"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.46" />
+
+    <com.daimajia.numberprogressbar.NumberProgressBar
+        android:id="@+id/number_progress_bar1"
+        android:layout_width="292dp"
+        android:layout_height="8dp"
+        custom:progress_unreached_color="#CCCCCC"
+        custom:progress_reached_color="#3498DB"
+
+        custom:progress_unreached_bar_height="0.75dp"
+        custom:progress_reached_bar_height="1.5dp"
+
+        custom:progress_text_size="10sp"
+        custom:progress_text_color="#3498DB"
+        custom:progress_text_offset="1dp"
+        custom:progress_text_visibility="visible"
+
+        custom:progress_max="100"
+        custom:progress_current="85"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="110dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/number_progress_bar"
+        app:layout_constraintVertical_bias="0.007" />
+
+
+
+</android.support.constraint.ConstraintLayout>
