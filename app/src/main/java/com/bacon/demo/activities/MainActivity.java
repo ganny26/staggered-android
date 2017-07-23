@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
                             JSONObject media = jsonArray.getJSONObject(i);
                            // JSONObject media = jsonArray.getJSONObject(i).getJSONObject("metadata").getJSONObject("media");
                             String mediaUrl = POSTER_BASE_URL +  media.get("poster_path");
+
                             //String mediaUrl = ""+media.getJSONArray("images").get(0);
                             Log.i(TAG,mediaUrl);
                             imageModel.setUrl(mediaUrl);
@@ -236,11 +237,6 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
-        return true;
-    }
 
 
 }

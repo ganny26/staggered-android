@@ -29,6 +29,7 @@ public class ResultActivity extends AppCompatActivity {
         mNotification.setSmallIcon(R.drawable.notificationlogo);
         mNotification.setTicker("New Recipe");
         mNotification.setWhen(System.currentTimeMillis());
+
         mNotification.setContentTitle("New recipes for you to stay fit");
         mNotification.setContentText("Archana's kitchen");
 
