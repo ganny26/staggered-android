@@ -124,20 +124,20 @@ public class MyAdapter  extends RecyclerView.Adapter {
 
         public StudentViewHolder(View v) {
             super(v);
-            tvName = (TextView) v.findViewById(R.id.tvName);
-
-            tvEmailId = (TextView) v.findViewById(R.id.tvEmailId);
-
-            v.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(),
-                            "OnClick :" + student.getName() + " \n "+student.getEmailId(),
-                            Toast.LENGTH_SHORT).show();
-
-                }
-            });
+//            tvName = (TextView) v.findViewById(R.id.tvName);
+//
+//            tvEmailId = (TextView) v.findViewById(R.id.tvEmailId);
+//
+//            v.setOnClickListener(new View.OnClickListener() {
+//
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(v.getContext(),
+//                            "OnClick :" + student.getName() + " \n "+student.getEmailId(),
+//                            Toast.LENGTH_SHORT).show();
+//
+//                }
+//            });
         }
     }
 
