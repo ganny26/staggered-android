@@ -32,6 +32,9 @@ import java.net.URLConnection;
 public class FcmMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FcmMessagingService";
+    private static final int NOTIFICATION_ID = 101;
+    private Bitmap bitmap;
+
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
