@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Async Task</string>
     <string name="title_activity_basic">BasicActivity</string>
+
     <string name="facebook_app_id">107658163241691</string>
     <string name="fb_login_protocol_scheme">fb107658163241691</string>
+
+    <string name="CONSUMER_KEY">cLjUPJvjxvC8S3BIwRStKVcGi</string>
+    <string name="CONSUMER_SECRET">ioRXouhGwffzdU47PXlsvVQ9ZbKkdM6qpgOfeT0UVhxZzHIGCo</string>
 
 </resources>
