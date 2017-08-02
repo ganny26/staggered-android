@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bacon.demo.R;
 import com.bacon.demo.WelcomeActivity;
@@ -29,10 +30,12 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterApiClient;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.core.models.User;
 
@@ -50,6 +53,10 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private static final String CONSUMER_KEY = "cLjUPJvjxvC8S3BIwRStKVcGi";
     private static final String CONSUMER_SECRET = "ioRXouhGwffzdU47PXlsvVQ9ZbKkdM6qpgOfeT0UVhxZzHIGCo";
+    public static final String PREFS_NAME = "test_app";
+    public static final String CALLBACKURL = "app://twitter-dev";
+    private TwitterCore twitter;
+    private   TwitterAuthClient twitterAuthClient;
 
 
     private static final String TAG = "LoginActivity";
@@ -60,23 +67,57 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setUpFaceBookSDK();
-        setUpTwitterSDK();
+        setUpTwitterOAuth();
+        //setUpTwitterSDK();
 
     }
 
+    private void setUpTwitterOAuth(){
+      //  Twitter.initialize(this);
+        twitterAuthClient = new TwitterAuthClient();
+        twitterAuthClient.authorize(this,new Callback<TwitterSession>(){
+            @Override
+            public void success(Result<TwitterSession> result) {
+                Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_LONG).show();
+            }
+        } );
+    }
     private void setUpTwitterSDK(){
-        //Twitter.initialize(this);
-        TwitterConfig config = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(new TwitterAuthConfig(CONSUMER_KEY,CONSUMER_SECRET))
-                .debug(true)
-                .build();
-        Twitter.initialize(config);
+        Twitter.initialize(this);
+//        TwitterConfig config = new TwitterConfig.Builder(this)
+//                .logger(new DefaultLogger(Log.DEBUG))
+//                .twitterAuthConfig(new TwitterAuthConfig(CONSUMER_KEY,CONSUMER_SECRET))
+//                .debug(true)
+//                .build();
+//        Twitter.initialize(config);
+
         twitterLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         twitterLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
-                getTwitterUserInformation(result);
+                TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+                TwitterAuthToken authToken = session.getAuthToken();
+                final String token = authToken.token;
+                final String secret = authToken.secret;
+                TwitterAuthClient authClient = new TwitterAuthClient();
+                authClient.requestEmail(session, new Callback<String>() {
+                    @Override
+                    public void success(Result<String> result) {
+                        Log.i(TAG,"Twitter Result"+result+"--token--"+token+"--secret--"+secret);
+                    }
+
+                    @Override
+                    public void failure(TwitterException exception) {
+                        Log.i(TAG,"Twitter error"+exception.toString());
+                    }
+                });
+
+                //getTwitterUserInformation(result);
             }
 
             @Override
@@ -102,8 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("user_name",name);
                         intent.putExtra("user_email",email);
                         intent.putExtra("profile_url",photoUrlNormalSize);
-                        Log
-                        startActivity(intent);
+
                     }
 
                     @Override
@@ -128,7 +168,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+     //   callbackManager.onActivityResult(requestCode, resultCode, data);
+        twitterLoginButton.onActivityResult(requestCode, resultCode, data);
     }
 
 
