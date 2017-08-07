@@ -1,17 +1,24 @@
 package com.bacon.demo.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bacon.demo.R;
 import com.bacon.demo.WelcomeActivity;
+import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -24,6 +31,13 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.TwitterAuthProvider;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
@@ -39,8 +53,12 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.core.models.User;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -49,14 +67,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView infoTextView;
     private LoginButton loginButton;
-    private TwitterLoginButton twitterLoginButton;
+    private TwitterLoginButton mLoginButton;
+    private ImageView profileView;
     private CallbackManager callbackManager;
     private static final String CONSUMER_KEY = "cLjUPJvjxvC8S3BIwRStKVcGi";
     private static final String CONSUMER_SECRET = "ioRXouhGwffzdU47PXlsvVQ9ZbKkdM6qpgOfeT0UVhxZzHIGCo";
     public static final String PREFS_NAME = "test_app";
     public static final String CALLBACKURL = "app://twitter-dev";
-    private TwitterCore twitter;
-    private   TwitterAuthClient twitterAuthClient;
+    private FirebaseAuth mAuth;
+
 
 
     private static final String TAG = "LoginActivity";
@@ -67,109 +86,158 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setUpFaceBookSDK();
-        setUpTwitterOAuth();
         //setUpTwitterSDK();
+       // setUpTwitterFirebase();
 
     }
+//    @Override
+//    private void setUpTwitterFirebase(){
+//        mAuth = FirebaseAuth.getInstance();
+//        mLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
+//        mLoginButton.setCallback(new Callback<TwitterSession>() {
+//            @Override
+//            public void success(Result<TwitterSession> result) {
+//                Log.d(TAG, "twitterLogin:success" + result);
+//                handleTwitterSession(result.data);
+//            }
+//
+//            @Override
+//            public void failure(TwitterException exception) {
+//                Log.w(TAG, "twitterLogin:failure", exception);
+//              //  updateUI(null);
+//            }
+//        });
+//    }
 
-    private void setUpTwitterOAuth(){
-      //  Twitter.initialize(this);
-        twitterAuthClient = new TwitterAuthClient();
-        twitterAuthClient.authorize(this,new Callback<TwitterSession>(){
-            @Override
-            public void success(Result<TwitterSession> result) {
-                Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
-            }
 
-            @Override
-            public void failure(TwitterException exception) {
-                Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_LONG).show();
-            }
-        } );
-    }
-    private void setUpTwitterSDK(){
-        Twitter.initialize(this);
+ //   private void setUpTwitterSDK(){
+//        TwitterAuthConfig twitterAuthConfig = new TwitterAuthConfig(CONSUMER_KEY,CONSUMER_SECRET)
 //        TwitterConfig config = new TwitterConfig.Builder(this)
 //                .logger(new DefaultLogger(Log.DEBUG))
-//                .twitterAuthConfig(new TwitterAuthConfig(CONSUMER_KEY,CONSUMER_SECRET))
+//                .twitterAuthConfig(new TwitterAuthConfig())
 //                .debug(true)
 //                .build();
+//
 //        Twitter.initialize(config);
 
-        twitterLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
-        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> result) {
-                TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
-                TwitterAuthToken authToken = session.getAuthToken();
-                final String token = authToken.token;
-                final String secret = authToken.secret;
-                TwitterAuthClient authClient = new TwitterAuthClient();
-                authClient.requestEmail(session, new Callback<String>() {
-                    @Override
-                    public void success(Result<String> result) {
-                        Log.i(TAG,"Twitter Result"+result+"--token--"+token+"--secret--"+secret);
-                    }
+     //   twitterLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
+//        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
+//            @Override
+//            public void success(Result<TwitterSession> result) {
+//                TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+//                TwitterAuthToken authToken = session.getAuthToken();
+//                final String token = authToken.token;
+//                final String secret = authToken.secret;
+//                TwitterAuthClient authClient = new TwitterAuthClient();
+//                authClient.requestEmail(session, new Callback<String>() {
+//                    @Override
+//                    public void success(Result<String> result) {
+//                        Log.i(TAG,"Twitter Result"+result+"--token--"+token+"--secret--"+secret);
+//                    }
+//
+//                    @Override
+//                    public void failure(TwitterException exception) {
+//                        Log.i(TAG,"Twitter error"+exception.toString());
+//                    }
+//                });
+//
+//                //getTwitterUserInformation(result);
+//            }
+//
+//            @Override
+//            public void failure(TwitterException e) {
+//                Log.i(TAG,"-error in fetching twitter details "+e.toString());
+//        }
+//        });
+   // }
 
-                    @Override
-                    public void failure(TwitterException exception) {
-                        Log.i(TAG,"Twitter error"+exception.toString());
-                    }
-                });
-
-                //getTwitterUserInformation(result);
-            }
-
-            @Override
-            public void failure(TwitterException e) {
-                Log.i(TAG,"-error in fetching twitter details "+e.toString());
-        }
-        });
-    }
-
-    private void getTwitterUserInformation(Result<TwitterSession> result){
-        TwitterSession twitterSession = result.data;
-        String twitterUserName = twitterSession.getUserName();
-        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
-        twitterApiClient.getAccountService().verifyCredentials(true,true,true)
-                .enqueue(new Callback<User>() {
-                    @Override
-                    public void success(Result<User> result) {
-                        String name = result.data.name;
-                        String email = result.data.email;
-                        String photoUrlNormalSize   = result.data.profileImageUrl;
-                        //String photoUrlBiggerSize   = userResult.data.profileImageUrl.replace("_normal", "_bigger");
-                        Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                        intent.putExtra("user_name",name);
-                        intent.putExtra("user_email",email);
-                        intent.putExtra("profile_url",photoUrlNormalSize);
-
-                    }
-
-                    @Override
-                    public void failure(TwitterException e) {
-                        Log.i(TAG,"-error in fetching twitter details "+e.toString());
-                    }
-                });
-
-
-
-    }
+//    private void getTwitterUserInformation(Result<TwitterSession> result){
+//        TwitterSession twitterSession = result.data;
+//        String twitterUserName = twitterSession.getUserName();
+//        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
+//        twitterApiClient.getAccountService().verifyCredentials(true,true,true)
+//                .enqueue(new Callback<User>() {
+//                    @Override
+//                    public void success(Result<User> result) {
+//                        String name = result.data.name;
+//                        String email = result.data.email;
+//                        String photoUrlNormalSize   = result.data.profileImageUrl;
+//                        //String photoUrlBiggerSize   = userResult.data.profileImageUrl.replace("_normal", "_bigger");
+//                        Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+//                        intent.putExtra("user_name",name);
+//                        intent.putExtra("user_email",email);
+//                        intent.putExtra("profile_url",photoUrlNormalSize);
+//
+//                    }
+//
+//                    @Override
+//                    public void failure(TwitterException e) {
+//                        Log.i(TAG,"-error in fetching twitter details "+e.toString());
+//                    }
+//                });
+//
+//
+//
+//    }
 
     private void setUpFaceBookSDK(){
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         infoTextView  = (TextView)findViewById(R.id.infoTextView);
-        loginButton = (LoginButton)findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
+        profileView = (ImageView) findViewById(R.id.display_picture) ;
+        loginButton = (LoginButton)findViewById(R.id.fb_login_button);
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "email","user_birthday"));
+        callbackManager = CallbackManager.Factory.create();
         loginButton.registerCallback(callbackManager,mFacebookCallback);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-     //   callbackManager.onActivityResult(requestCode, resultCode, data);
-        twitterLoginButton.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        // Pass the activity result to the Twitter login button.
+       // mLoginButton.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleTwitterSession(TwitterSession session) {
+        Log.d(TAG, "handleTwitterSession:" + session);
+
+        AuthCredential credential = TwitterAuthProvider.getCredential(
+                session.getAuthToken().token,
+                session.getAuthToken().secret);
+
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        //    updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                         //   updateUI(null);
+                        }
+
+
+                    }
+                });
+    }
+
+
+    public static URL getFacebookProfilePicture(String userID) {
+        URL imageURL = null;
+        try {
+            imageURL = new URL("https://graph.facebook.com/" + userID + "/picture?type=large");
+        } catch (Exception e) {
+            Log.v(TAG, "error while fetching fb profile picture-" + e.toString());
+        }
+        return imageURL;
     }
 
 
@@ -178,21 +246,38 @@ public class LoginActivity extends AppCompatActivity {
     private FacebookCallback<LoginResult> mFacebookCallback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
-            try{
-                String userID = loginResult.getAccessToken().getUserId();
-               String authToken = loginResult.getAccessToken().getToken();
+            final String userID = loginResult.getAccessToken().getUserId();
+            AccessToken accessToken = loginResult.getAccessToken();
+
+
+
                 GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
-                    public void onCompleted(JSONObject jsonObject, GraphResponse response) {
-                        Bundle facebookData = getFacebookData(jsonObject);
-                        Log.i(TAG,"user information "+facebookData);
+                    public void onCompleted(JSONObject fbJsonObject, GraphResponse response) {
+                        Log.v("LoginActivity", response.toString());
+                        try{
+                            JSONObject data = response.getJSONObject();
+                            String email = fbJsonObject.getString("email");
+                            String birthday = fbJsonObject.getString("birthday");
+                            if (fbJsonObject.has("picture")) {
+
+                                URL fbProfileUrl = getFacebookProfilePicture(userID);
+                                Log.v(TAG,"LoginActivity image url"+fbProfileUrl);
+                                Glide.with(LoginActivity.this).load(fbProfileUrl).into(profileView);
+                            }
+                        }catch (JSONException e) {
+                            Log.i(TAG,"-error in fetching fb details "+e.toString());
+                        }
                     }
                 });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,name,email,gender, birthday");
+            graphRequest.setParameters(parameters);
+            graphRequest.executeAsync();
+            infoTextView.setText(userID);
 
-                infoTextView.setText(userID );
-            }catch (Exception e){
-                Log.i(TAG,"-error in fetching fb details "+e.toString());
-            }
+
+
         }
 
         @Override
@@ -205,45 +290,6 @@ public class LoginActivity extends AppCompatActivity {
             infoTextView.setText("Login attempt failed.");
         }
 
-        private Bundle getFacebookData(JSONObject object) {
-            Bundle bundle = new Bundle();
-
-            try {
-                String id = object.getString("id");
-                URL profile_pic;
-                try {
-                    profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?type=large");
-                    Log.i("profile_pic", profile_pic + "");
-                    bundle.putString("profile_pic", profile_pic.toString());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-
-                bundle.putString("idFacebook", id);
-                if (object.has("first_name"))
-                    bundle.putString("first_name", object.getString("first_name"));
-                if (object.has("last_name"))
-                    bundle.putString("last_name", object.getString("last_name"));
-                if (object.has("email"))
-                    bundle.putString("email", object.getString("email"));
-                if (object.has("gender"))
-                    bundle.putString("gender", object.getString("gender"));
-
-
-
-
-            } catch (Exception e) {
-                Log.d(TAG, "BUNDLE Exception : "+e.toString());
-            }
-
-            return bundle;
-        }
     };
-
-
-
-
-
 
 }
