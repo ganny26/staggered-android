@@ -85,7 +85,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        profileView = (ImageView) findViewById(R.id.display_picture) ;
+        Glide.with(LoginActivity.this).load("https://graph.facebook.com/1483163761753185/picture?type=large").into(profileView);
         setUpFaceBookSDK();
+
         //setUpTwitterSDK();
        // setUpTwitterFirebase();
 
@@ -184,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         infoTextView  = (TextView)findViewById(R.id.infoTextView);
-        profileView = (ImageView) findViewById(R.id.display_picture) ;
+       // profileView = (ImageView) findViewById(R.id.display_picture) ;
         loginButton = (LoginButton)findViewById(R.id.fb_login_button);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email","user_birthday"));
         callbackManager = CallbackManager.Factory.create();
@@ -247,24 +250,18 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onSuccess(LoginResult loginResult) {
             final String userID = loginResult.getAccessToken().getUserId();
-            AccessToken accessToken = loginResult.getAccessToken();
-
-
-
+            final AccessToken accessToken = loginResult.getAccessToken();
                 GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject fbJsonObject, GraphResponse response) {
-                        Log.v("LoginActivity", response.toString());
                         try{
-                            JSONObject data = response.getJSONObject();
-                            String email = fbJsonObject.getString("email");
-                            String birthday = fbJsonObject.getString("birthday");
-                            if (fbJsonObject.has("picture")) {
+                            JSONObject facebookResponse = response.getJSONObject();
+                            URL fbProfileUrl = getFacebookProfilePicture(userID);
+                            facebookResponse.put("auth_token",accessToken.getToken());
+                            facebookResponse.put("profile_url",fbProfileUrl);
+                            Log.v(TAG, "facebook response" + facebookResponse.toString());
+                           // Glide.with(LoginActivity.this).load(fbProfileUrl).into(profileView);
 
-                                URL fbProfileUrl = getFacebookProfilePicture(userID);
-                                Log.v(TAG,"LoginActivity image url"+fbProfileUrl);
-                                Glide.with(LoginActivity.this).load(fbProfileUrl).into(profileView);
-                            }
                         }catch (JSONException e) {
                             Log.i(TAG,"-error in fetching fb details "+e.toString());
                         }
