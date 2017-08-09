@@ -267,14 +267,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-            Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,email,gender, birthday");
-            graphRequest.setParameters(parameters);
-            graphRequest.executeAsync();
-            infoTextView.setText(userID);
-
-
-
         }
 
         @Override
