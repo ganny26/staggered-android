@@ -7,12 +7,15 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bacon.demo.R;
 import com.bumptech.glide.Glide;
+import com.codemybrainsout.onboarder.AhoyOnboarderActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -38,7 +41,7 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.util.Arrays;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity{
 
     private TextView infoTextView;
     private LoginButton loginButton;
@@ -50,6 +53,9 @@ public class LoginActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "test_app";
     public static final String CALLBACKURL = "app://twitter-dev";
     private FirebaseAuth mAuth;
+    private Button twitterLogInButton;
+
+
 
 
 
@@ -63,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         profileView = (ImageView) findViewById(R.id.display_picture) ;
         Glide.with(LoginActivity.this).load("https://graph.facebook.com/1483163761753185/picture?type=large").into(profileView);
         setUpFaceBookSDK();
+        setUpTwitterSDK();
         getAndroidDeviceId(this.getApplicationContext());
 
     }
@@ -76,6 +83,18 @@ public class LoginActivity extends AppCompatActivity {
         String androidId = Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.d(TAG,"demo android device id"+androidId);
         return androidId;
+    }
+
+    private void setUpTwitterSDK(){
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        twitterLogInButton = (Button) findViewById(R.id.twitter_btn);
+        twitterLogInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 
