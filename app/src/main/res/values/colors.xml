@@ -13,4 +13,7 @@
     <color name="carbs_progress_bar">#33cc99</color>
     <color name="protien_progress_bar">#0099cc</color>
     <color name="fat_progress_bar">#996699</color>
+    <color name="intro1">#607D8B</color>
+    <color name="intro2">#fbc96c</color>
+    <color name="intro3">#fcaefb</color>
 </resources>
