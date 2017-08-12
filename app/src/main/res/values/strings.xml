@@ -11,5 +11,11 @@
 
     <string name="CONSUMER_KEY">cLjUPJvjxvC8S3BIwRStKVcGi</string>
     <string name="CONSUMER_SECRET">ioRXouhGwffzdU47PXlsvVQ9ZbKkdM6qpgOfeT0UVhxZzHIGCo</string>
+    <string name="fa_cutlery">&#xf0f5;</string>
+    <string name="fa_heartbeat">&#xf0f5;</string>
+    <string name="fa_credit_card">&#xf09d;</string>
+    <string name="fa_heart_o">&#xf08a;</string>
+
+
 
 </resources>
