@@ -16,6 +16,8 @@
     <string name="fa_credit_card">&#xf09d;</string>
     <string name="fa_heart_o">&#xf08a;</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
