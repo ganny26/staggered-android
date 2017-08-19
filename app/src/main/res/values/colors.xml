@@ -16,4 +16,6 @@
     <color name="intro1">#607D8B</color>
     <color name="intro2">#fbc96c</color>
     <color name="intro3">#fcaefb</color>
+    <color name="intro_bg">#33cc99</color>
+
 </resources>
