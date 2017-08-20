@@ -34,9 +34,10 @@
                     android:id="@+id/pb_protein"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="16dp"
                     android:layout_gravity="center"
                     android:progress="35"
+                    android:layout_height="4dp"
+                    android:progressDrawable="@drawable/carbs_style"
                     android:progressTint="@color/carbs_progress_bar" />
 
                 <LinearLayout
@@ -81,10 +82,12 @@
                 android:paddingTop="8dp">
 
                 <ProgressBar
-                    android:id="@+id/pb_protein"
+                    android:layout_height="4dp"
+                    android:progressDrawable="@drawable/carbs_style"
+                    android:id="@+id/pb_protein1"
+
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="16dp"
                     android:layout_gravity="center"
                     android:progress="88"
                     android:progressTint="@color/protien_progress_bar" />
@@ -132,10 +135,12 @@
                 android:paddingTop="8dp">
 
                 <ProgressBar
-                    android:id="@+id/pb_protein"
+                    android:id="@+id/pb_protein11"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="16dp"
+                    android:layout_height="4dp"
+
+                    android:progressDrawable="@drawable/carbs_style"
                     android:layout_gravity="center"
                     android:progress="75"
                     android:progressTint="@color/fat_progress_bar" />
@@ -197,6 +202,7 @@
                 android:layout_width="match_parent"
                 android:indeterminate="true"
                 android:progress="55"
+                android:visibility="gone"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 

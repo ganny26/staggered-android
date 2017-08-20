@@ -32,6 +32,11 @@
             android:layout_height="200dp"
             android:id="@+id/display_picture"/>
 
+        <Button
+            android:id="@+id/twitter_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Twitter Login" />
 
 
     </LinearLayout>
