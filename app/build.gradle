@@ -47,6 +47,7 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:9.4.0'
     compile 'com.codemybrainsout.onboarding:onboarder:1.0.4'
     compile 'com.github.apl-devs:appintro:v4.2.2'
+    compile 'com.nex3z:flow-layout:0.1.4'
 
 
 }
