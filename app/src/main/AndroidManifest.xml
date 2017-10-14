@@ -11,11 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTheme">
         <activity android:name=".activities.IntroActivity1">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+             <!--<intent-filter>-->
+             <!--<action android:name="android.intent.action.MAIN" />-->
+
+
+             <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter> -->
         </activity>
         <activity android:name=".activities.MainActivity">
 
@@ -41,7 +43,7 @@
         </service>
 
         <activity android:name=".activities.TestActivity" />
-        <activity android:name=".activities.ProductActivity" >
+        <activity android:name=".activities.ProductActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -71,6 +73,17 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".WelcomeActivity" />
+        <activity
+            android:name=".activities.SignupActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_signup"
+            android:theme="@style/FullscreenTheme">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
     </application>
 
 </manifest>
