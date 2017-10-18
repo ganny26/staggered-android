@@ -9,9 +9,19 @@ public class Department implements ExpandableListItem {
 
     private boolean mExpand = false;
     public String name;
+    public String displayTest;
     public List<Employee> mEmployees;
 
+    public String getDisplayTest() {
+        return displayTest;
+    }
+
+    public void setDisplayTest(String displayTest) {
+        this.displayTest = displayTest;
+    }
+
     @Override
+
     public List<?> getChildItemList() {
         return mEmployees;
     }
