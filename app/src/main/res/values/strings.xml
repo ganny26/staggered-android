@@ -22,6 +22,13 @@
     <string name="title_activity_signup">SignupActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- The label used on a button when a view is in an expanded state. Clicking on the icon
+ collapses the view. -->
+    <string name="expanded">Expanded</string>
+
+    <!-- The label used on a button when a view is in an collapsed state. Clicking on the icon
+    expanded the view. -->
+    <string name="collapsed">Collapsed</string>
 
 
 </resources>
