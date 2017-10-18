@@ -31,7 +31,7 @@ public class CompanyItem extends AbstractExpandableAdapterItem {
             @Override
             public void onClick(View view) {
                 doExpandOrUnexpand();
-                Toast.makeText(root.getContext(), "click company：" +mCompany.name,Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(root.getContext(), "click company：" +mCompany.name,Toast.LENGTH_SHORT).show();
             }
         });
         mName = (TextView) root.findViewById(R.id.tv_name);
@@ -43,9 +43,9 @@ public class CompanyItem extends AbstractExpandableAdapterItem {
         float start, target;
         if (expanded) {
             start = 0f;
-            target = 90f;
+            target = 180f;
         } else {
-            start = 90f;
+            start = 180f;
             target = 0f;
         }
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mArrow, View.ROTATION, start, target);
