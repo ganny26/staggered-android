@@ -17,7 +17,7 @@
     <color name="intro2">#fbc96c</color>
     <color name="intro3">#fcaefb</color>
     <color name="intro_bg">#33cc99</color>
-
+    <color name="collapse_blue">#3a50db</color>
     <color name="black_overlay">#66000000</color>
 
 </resources>
